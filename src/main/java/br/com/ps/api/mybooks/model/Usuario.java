@@ -28,7 +28,7 @@ public class Usuario extends EntidadeBase {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_permissao", 
-               joinColumns = @JoinColumn(name = "id_usaurio"), 
+               joinColumns = @JoinColumn(name = "id_usuario"), 
                inverseJoinColumns = @JoinColumn(name = "id_permissao")
     )
     public List<Permissao> getPermissoes() {

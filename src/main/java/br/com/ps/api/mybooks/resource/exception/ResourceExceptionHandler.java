@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import br.com.ps.api.mybooks.exception.LivrosEmptyException;
+
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
@@ -18,6 +20,18 @@ public class ResourceExceptionHandler {
         erro.setTimestamp(System.currentTimeMillis());
         erro.setStatus(HttpStatus.NOT_FOUND.value());
         erro.setMessage("Não encontrado");
+        erro.setError(ex.getMessage());
+        erro.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }
+
+    @ExceptionHandler({ LivrosEmptyException.class })
+    public ResponseEntity<Erro> handleLivrosEmptyException(LivrosEmptyException ex,
+            HttpServletRequest request) {
+        Erro erro = new Erro();
+        erro.setTimestamp(System.currentTimeMillis());
+        erro.setStatus(HttpStatus.NOT_FOUND.value());
+        erro.setMessage("Lista de livros vazia...");
         erro.setError(ex.getMessage());
         erro.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);

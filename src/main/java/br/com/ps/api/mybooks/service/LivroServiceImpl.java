@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import br.com.ps.api.mybooks.exception.LivrosEmptyException;
 import br.com.ps.api.mybooks.model.Livro;
 import br.com.ps.api.mybooks.model.Usuario;
 import br.com.ps.api.mybooks.repository.LivroRepository;
@@ -43,7 +44,11 @@ public class LivroServiceImpl implements LivroService {
     }
 
     @Override
-    public List<Livro> todosPorUsuario(Usuario usuario) {
-        return livroRepository.findAllByUsuario(usuario);
+    public List<Livro> todosPorUsuario(Usuario usuario) throws LivrosEmptyException{
+        List<Livro> livros = livroRepository.findAllByUsuario(usuario);
+        if(livros.isEmpty()){
+            throw new LivrosEmptyException("Usuário sem livros cadastrados.");
+        }
+        return livros;
     }
 }
