@@ -33,25 +33,28 @@ public class LivroResource {
     private UsuarioService usuarioService;
 
     @PutMapping("/atualizar")
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_LIVRO')")
     public ResponseEntity<Livro> atualizar(@Valid @RequestBody Livro livro) {
         Livro livroSalvo = livroService.atualizar(livro);
         return livroSalvo == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(livroSalvo);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LIVRO')")
     public ResponseEntity<Livro> buscarPorId(@PathVariable int id) {
         Optional<Livro> livro = livroService.buscarPorId(id);
         return livro.isPresent() ? ResponseEntity.ok(livro.get()) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/inserir")
+    @PreAuthorize(value="hasAuthority('ROLE_CADASTRAR_LIVRO')")
     public ResponseEntity<Livro> inserir(@Valid @RequestBody Livro livro) {
         Livro livroSalvo = livroService.inserir(livro);
         return ResponseEntity.status(HttpStatus.CREATED).body(livroSalvo);
     }
 
     @GetMapping("/listar/{id}")
-    @PreAuthorize(value = "hasAuthority('ROLE_USER')")
+    @PreAuthorize(value = "hasAuthority('ROLE_LISTAR_LIVROS')")
     public ResponseEntity<List<Livro>> listarPorIdUsuario(@PathVariable int id) throws LivrosEmptyException {
         Usuario usuario = usuarioService.buscarPorId(id).get();
         List<Livro> livros = livroService.todosPorUsuario(usuario);
