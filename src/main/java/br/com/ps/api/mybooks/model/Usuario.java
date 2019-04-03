@@ -4,15 +4,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import br.com.ps.api.mybooks.model.enums.TipoUsuario;
 
 @Entity
 @Table(name = "usuario")
@@ -24,7 +20,6 @@ public class Usuario extends EntidadeBase {
     private String login;
     private String senha;
     private boolean ativo;
-    private TipoUsuario tipo;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_permissao", 
@@ -65,15 +60,4 @@ public class Usuario extends EntidadeBase {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo", nullable = false, length = 50)
-    public TipoUsuario getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoUsuario tipo) {
-        this.tipo = tipo;
-    }
-
 }

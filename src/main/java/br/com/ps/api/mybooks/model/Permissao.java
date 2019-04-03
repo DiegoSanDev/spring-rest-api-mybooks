@@ -21,8 +21,12 @@ public class Permissao implements Serializable {
 
     private int id;
     private TipoPermissao tipo;
-
+    
     public Permissao() {
+    }
+
+    public Permissao(TipoPermissao tipo){
+        this.tipo = tipo;
     }
 
     @Id
